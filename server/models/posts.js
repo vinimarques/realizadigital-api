@@ -12,6 +12,10 @@ class Posts extends Model {
     }
   }
 
+  static listFeed() {
+    return Model.query(`SELECT * FROM posts`);
+  }
+
   static details(id) {
     return Model.first(`SELECT id, text, likes FROM posts WHERE id = ?`, [id]);
   }

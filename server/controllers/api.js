@@ -54,6 +54,17 @@ router.get('/user/:id', Auth.middleware(false), Resolve.send(
   }
 ));
 
+router.get('/feeds', Auth.middleware(false), Resolve.send(
+  function (req) {
+    return Posts.listFeed()
+      .then(result => {
+        return Promise.props({
+          posts: result
+        });
+      });
+  }
+));
+
 router.post('/feed', Auth.middleware(true), Resolve.send(
   function (req) {
     const validator = new Validator([
