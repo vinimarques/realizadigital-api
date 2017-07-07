@@ -1,0 +1,5 @@
+vm:
+  memory: 1024
+  name: idealiza-api
+database:
+  dbname: idealiza

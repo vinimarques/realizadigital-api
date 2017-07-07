@@ -1,0 +1,22 @@
+upstream application {
+  server 127.0.0.1:3000;
+}
+
+server {
+  server_name api.idealiza.vm;
+
+  more_set_headers 'Access-Control-Allow-Origin: *';
+  more_set_headers 'Access-Control-Allow-Headers: Content-Type,Content-Length,X-Requested-With,Authorization,X-Agent';
+
+  client_max_body_size 5m;
+
+  location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
+
+    proxy_redirect off;
+    proxy_pass http://application/;
+  }
+}

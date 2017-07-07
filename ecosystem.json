@@ -1,0 +1,23 @@
+{
+  "apps" : [
+    {
+      "name"      : "idealiza",
+      "script"    : "server/index.js",
+      "merge_logs": true,
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "max_memory_restart": "512M",
+      "watch" :	true,
+      "exec_mode": "fork_mode",
+      "instances": 1,
+      "env": {
+        "APP_PORT": 3000,
+        "APP_DATABASE_HOST"     		   : "127.0.0.1",
+        "APP_DATABASE_USER"     		   : "root",
+        "APP_DATABASE_PASSWORD" 		   : "root",
+        "APP_DATABASE_DATABASE" 		   : "idealiza",
+        "APP_DATABASE_CHARSET" 		    	: "UTF8",
+        "APP_DATABASE_DEBUG"					:  ["ComQueryPacket"]
+      }
+    }
+  ]
+}
