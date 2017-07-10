@@ -54,9 +54,9 @@ router.get('/user/:id', Auth.middleware(false), Resolve.send(
   }
 ));
 
-router.get('/feeds', Auth.middleware(false), Resolve.send(
+router.get('/feeds/:id', Auth.middleware(false), Resolve.send(
   function (req) {
-    return Posts.listFeed()
+    return Posts.listFeed(req.params.id)
       .then(result => {
         return Promise.props({
           posts: result
@@ -89,8 +89,9 @@ router.post('/feed', Auth.middleware(true), Resolve.send(
   }
 ));
 
-router.get('/like/:post_id', Auth.middleware(true), Resolve.send(
+router.post('/like/:post_id', Auth.middleware(true), Resolve.send(
   function (req) {
+    console.log(req);
     const post_id = req.params.post_id;
     const user_id = req.user.id;
 
@@ -102,7 +103,7 @@ router.get('/like/:post_id', Auth.middleware(true), Resolve.send(
   }
 ));
 
-router.get('/unlike/:post_id', Auth.middleware(true), Resolve.send(
+router.post('/unlike/:post_id', Auth.middleware(true), Resolve.send(
   function (req) {
     const post_id = req.params.post_id;
     const user_id = req.user.id;
