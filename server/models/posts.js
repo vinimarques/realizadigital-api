@@ -13,9 +13,12 @@ class Posts extends Model {
   }
 
   static listFeed(user_id) {
-    return Model.query(`SELECT IFNULL((
-        SELECT COUNT(user_id) FROM likes WHERE post_id = p.id AND user_id = 1
-      ), 0) AS liked, p.* FROM posts p`, [user_id]);
+    return Model.query(`
+      SELECT IFNULL((
+         SELECT COUNT(user_id) FROM likes WHERE post_id = p.id AND user_id = 1
+       ), 0) AS liked, p.*, u.* FROM posts p
+       JOIN users u ON u.id =  p.user_id
+       `, [user_id]);
   }
 
   static details(id) {
