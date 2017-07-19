@@ -101,12 +101,15 @@ router.post('/feed', Auth.middleware(true), Resolve.send(
     ]);
 
     const data = _.pick(req.body, ['text']);
+    const regex = /(<([^>]+)>)/ig;
 
     validator.validate(data);
 
     if (validator.hasErrors()) throw validator.getErrors();
 
     data.user_id = req.user.id;
+
+    data.text = data.text.replace(regex,'');
 
     return Posts.insert(data)
       .then(result => {
