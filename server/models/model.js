@@ -38,6 +38,13 @@ class Model {
       })
   }
 
+  static alter(data, email, password, table) {
+    return Model.query(`UPDATE ${table} SET ? WHERE email = ? AND password = ?`, [data, email, password])
+      .catch(error => {
+        throw ApiError.unique(error);
+      })
+  }
+
   static insertIgnore(data, table) {
     return Model.query(`INSERT IGNORE INTO ${table} SET ?`, data)
       .catch(error => {

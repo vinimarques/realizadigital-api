@@ -45,6 +45,35 @@ router.post('/register', Resolve.send(
   }
 ));
 
+router.post('/alter', Resolve.send(
+  function (req) {
+    const validator = new Validator([
+      {field: 'first_name', type: 'String', required: true},
+      {field: 'last_name', type: 'String', required: true},
+      {field: 'email', type: 'String', required: true},
+      {field: 'age', type: 'String', required: true},
+      {field: 'address', type: 'String', required: true},
+      {field: 'cep', type: 'String', required: true},
+      {field: 'cpf', type: 'String', required: true},
+      {field: 'password', type: 'String', required: true},
+    ]);
+
+    const data = _.pick(req.body, ['first_name', 'last_name', 'email', 'age', 'address', 'cep', 'cpf', 'password']);
+
+    validator.validate(data);
+
+    if (validator.hasErrors()) throw validator.getErrors();
+
+    return Users.alter(data, data.email, data.password)
+      .then(result => {
+        return {success: true};
+      })
+      .catch(error => {
+        throw {error};
+      });
+  }
+));
+
 router.get('/user/:id', Auth.middleware(false), Resolve.send(
   function (req) {
     return Promise.props({
