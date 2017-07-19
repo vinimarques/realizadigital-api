@@ -66,7 +66,7 @@ router.post('/alter', Resolve.send(
 
     return Users.alter(data, data.email, data.password)
       .then(result => {
-        return {success: true};
+        return Users.getUserByAuthentication(data.email, data.password);
       })
       .catch(error => {
         throw {error};
