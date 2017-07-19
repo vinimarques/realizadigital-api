@@ -28,12 +28,15 @@ router.post('/register', Resolve.send(
       {field: 'cpf', type: 'String', required: true},
       {field: 'password', type: 'String', required: true},
     ]);
-
+    const regex = /(<([^>]+)>)/ig;
     const data = _.pick(req.body, ['first_name', 'last_name', 'email', 'age', 'address', 'cep', 'cpf', 'password']);
 
     validator.validate(data);
 
     if (validator.hasErrors()) throw validator.getErrors();
+
+    data.first_name = data.first_name.replace(regex,'');
+    data.last_name = data.last_name.replace(regex,'');
 
     return Users.insert(data)
       .then(result => {
@@ -57,12 +60,15 @@ router.post('/alter', Resolve.send(
       {field: 'cpf', type: 'String', required: true},
       {field: 'password', type: 'String', required: true},
     ]);
-
+    const regex = /(<([^>]+)>)/ig;
     const data = _.pick(req.body, ['first_name', 'last_name', 'email', 'age', 'address', 'cep', 'cpf', 'password']);
 
     validator.validate(data);
 
     if (validator.hasErrors()) throw validator.getErrors();
+
+    data.first_name = data.first_name.replace(regex,'');
+    data.last_name = data.last_name.replace(regex,'');
 
     return Users.alter(data, data.email, data.password)
       .then(result => {
